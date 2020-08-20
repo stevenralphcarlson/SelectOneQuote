@@ -2,6 +2,7 @@
 <script type="text/javascript">
   $(document).ready(function () {
     $("#part2").hide();
+    $("#summary-button").hide();
     $("#openShipping").hide();
     $("#enclosedShipping").hide();
 
@@ -14,6 +15,7 @@
       enclosedexpress: "6",
     };
 
+    // Enables Bootstrap 'popover' content
     $(function () {
       $('[data-toggle="popover"]').popover();
     });
@@ -29,6 +31,7 @@
     $("#continueToOpen").click(function () {
       $("#part1").hide();
       $("#part2").show();
+      $("#summary-button").show()
       $("#header").text("Delivery Options");
       $("#openstandard").prop("checked", true);
       $("#openShipping").show();
@@ -37,19 +40,22 @@
     $("#selectEnclosed").click(function () {
       $("#part1").hide();
       $("#part2").show();
+      $("summary-button").show();
       $("#header").text("Delivery Options");
       $("#enclosedstandard").prop("checked", true);
       $("#enclosedShipping").show();
     });
   });
 </script>
-
+<!-- Trailer Card Header -->
 <div class="quote-container">
   <h1 id="header" class="pricing-header display-4">Pricing Options</h1>
 </div>
 <form action="/summary" method="POST" id="theForm">
   <div class="container">
     <div class="card-deck mb-3 text-center" id="part1">
+
+      <!-- Open Trailer Card -->
       <div class="card">
         <div class="card-header">
           <h4 class="card-header-text">Open Trailer</h4>
@@ -59,10 +65,12 @@
           <div class="open-trailer-container">
             <img src="/images/open-trailer.jpg" alt="Open Car Trailer" class="trailer-img" />
           </div>
-          <p class="card-text">
-            An <span class="open-trailer-text">'Open Trailer'</span> is a trailer that is open and exposed to the
-            elements. See the image for an example.
-          </p>
+          <div class="card-text-container">
+            <p class="card-text">
+              An <span class="open-trailer-text">'Open Trailer'</span> is a trailer that is open and exposes your
+              vehicle to the elements. See the image for an example.
+            </p>
+          </div>
           <h1 class="card-title pricing-card-title">
             $<%= openstandard %><small class="text-muted"></small>
           </h1>
@@ -72,6 +80,7 @@
         </div>
       </div>
 
+      <!-- Enclosed Trailer Card -->
       <div class="card">
         <div class="card-header">
           <h4 class="card-header-text">Enclosed Trailer</h4>
@@ -79,12 +88,14 @@
         <div class="card-body">
           <!-- Enlcosed Trailer Image -->
           <div class="enclosed-trailer-container">
-            <img src="/images/s1gEnclosed.png" alt="Enclosed Car Trailer" class="trailer-img"/>
+            <img src="/images/s1gEnclosed.png" alt="Enclosed Car Trailer" class="trailer-img" />
           </div>
-          <p class="card-text">
-            An <span class="enclosed-trailer-text">'Enclosed Trailer'</span> is a trailer that protects from the elements.
-            See the image for an example.
-          </p>
+          <div class="card-text-container">
+            <p class="card-text">
+              An <span class="enclosed-trailer-text">'Enclosed Trailer'</span> is a trailer that encloses and protects
+              your vehicle from the elements. See the image for an example.
+            </p>
+          </div>
           <h1 class="card-title pricing-card-title">
             $<%= enclosedstandard %><small class="text-muted"></small>
           </h1>
@@ -96,70 +107,91 @@
     </div>
 
     <div id="part2">
-      <p class="delivery-sub-title">Upgrade to one of the following service types to increase the shipment speed. Or keep your current
+      <p class="delivery-sub-title">Upgrade to one of the following service types to increase the shipment speed. Or
+        keep your current
         selection.</p>
-      <div class="card-deck mb-3 text-center" id="openShipping">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="delivery-option-title">Standard</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">
-              <input type="radio" id="openstandard" name="selection" value="Open Standard" />
-              <label style="font-size: 50px;" for="openstandard">$<%= openstandard %></label>
-            </h1>
-            <label>Deliver By: <span class="deliver-by-text"><%= standardDeliverBy %></span></label>
-          </div>
-        </div>
 
-        <div class="card">
-          <div class="card-header">
-            <h4 class="delivery-option-title">Premium</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">
-              <input type="radio" id="openpremium" name="selection" value="Open Premium" />
-              <label style="font-size: 50px;" for="openpremium">$<%= openpremium %></label>
-            </h1>
-            <label>Deliver By: <span class="deliver-by-text"><%= premiumDeliverBy %></span></label>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <h4 class="delivery-option-title">Express</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">
-              <input type="radio" id="openexpress" name="selection" value="Open Express" />
-              <label style="font-size: 50px;" for="openexpress">$<%= openexpress %></label>
-            </h1>
-            <label>Deliver By: <span class="deliver-by-text"><%= expressDeliverBy %></span></label>
+      <!-- Summary card -->
+      <div class="container summary-container">
+        <div class="row">
+          <!-- Your Current Selection Summary Collapse Content -->
+          <!-- <div class="col-sm">
+            <button type="button" data-toggle="collapse" data-target="#collapseSummary" aria-expanded="false"
+              aria-controls="collapseSummary" class="summary-card-buttons">
+              Your Current Selection
+            </button>
+            <div class="collapse collapseSummary" id="collapseSummary">
+              <ul class="list-group mb-3  summary-card">
+                <li class="list-group-item d-flex justify-content-between 1h-condensed">
+                  <div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Service: </strong>Standard</li>
+                      <li class="list-group-item"><strong>Origin:</strong> <%= quoteOrigin %></li>
+                      <li class="list-group-item"><strong>Destination:</strong> <%= quoteDestination %></li>
+                      <li class="list-group-item"><strong>Distance: </strong> <%= distance %> miles</li>
+                      <li class="list-group-item"><strong>Vehicle: </strong><%= vehicle %></li>
+                      <li class="list-group-item"><strong>Available Date: </strong><%= dateAvailable %></li>
+                      <li class="list-group-item"><strong>Deliver By: </strong> <%= standardDeliverBy %></li>
+                      <li class="list-group-item"><strong>Price: </strong>$<%= openstandard %></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div> -->
+          <!-- Google Maps Origin & Destination Points Collapse Content -->
+          <div class="col-sm">
+            <!-- <button type="button" data-toggle="collapse" data-target="#mapCollapse" aria-expanded="false"
+              aria-controls="mapCollapse" class="summary-card-buttons">
+              Show Map
+            </button> -->
           </div>
         </div>
       </div>
 
-      <!-- Summary card -->
-      <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="summary-card-title">Your Current Selection</span>
-          </h4>
-          <ul class="list-group mb-3  summary-card">
-            <li class="list-group-item d-flex justify-content-between 1h-condensed">
-              <div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Service: </strong>Standard</li>
-                  <li class="list-group-item"><strong>Origin:</strong> <%= quoteOrigin %></li>
-                  <li class="list-group-item"><strong>Destination:</strong> <%= quoteDestination %></li>
-                  <li class="list-group-item"><strong>Distance: </strong> <%= distance %> miles</li>
-                  <li class="list-group-item"><strong>Vehicle: </strong><%= vehicle %></li>
-                  <li class="list-group-item"><strong>Available Date: </strong><%= dateAvailable %></li>
-                  <li class="list-group-item"><strong>Deliver By: </strong> <%= standardDeliverBy %></li>
-                  <li class="list-group-item"><strong>Price: </strong>$<%= openstandard %></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
+      <!-- Service Level Cards -->
+      <div class="card-deck mb-3 text-center" id="openShipping">
+
+        <!-- Standard Card -->
+        <div class="card">
+          <div class="card-header service-card-header">
+            <h4 class="delivery-option-title">Standard</h4>
+          </div>
+          <div class="card-body standard-card">
+            <h1 class="service-card-text">
+              <input type="radio" id="openstandard" name="selection" value="Open Standard" />
+              <label class="service-card-price" style="font-size: 50px;" for="openstandard">$<%= openstandard %></label>
+            </h1>
+            <label class="service-card-label">Deliver By: <%= standardDeliverBy %></label>
+          </div>
+        </div>
+
+        <!-- Premium Card -->
+        <div class="card">
+          <div class="card-header service-card-header">
+            <h4 class="delivery-option-title">Premium</h4>
+          </div>
+          <div class="card-body premium-card">
+            <h1 class="service-card-text">
+              <input type="radio" id="openpremium" name="selection" value="Open Premium" />
+              <label style="font-size: 50px;" for="openpremium">$<%= openpremium %></label>
+            </h1>
+            <label service-card-subtext>Deliver By: <%= premiumDeliverBy %></label>
+          </div>
+        </div>
+
+        <!-- Express Card -->
+        <div class="card">
+          <div class="card-header service-card-header">
+            <h4 class="delivery-option-title">Express</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="service-card-text">
+              <input type="radio" id="openexpress" name="selection" value="Open Express" />
+              <label style="font-size: 50px;" for="openexpress">$<%= openexpress %></label>
+            </h1>
+            <label service-card-subtext>Deliver By: <%= expressDeliverBy %></label>
+          </div>
         </div>
       </div>
 

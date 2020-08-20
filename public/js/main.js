@@ -9,11 +9,11 @@ function addRow() {
     var rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
 
-    row.insertCell(0).innerHTML= carYears.value;
-    row.insertCell(1).innerHTML= carMakes.value;
-    row.insertCell(2).innerHTML= carModels.value;
+    row.insertCell(0).innerHTML = carYears.value;
+    row.insertCell(1).innerHTML = carMakes.value;
+    row.insertCell(2).innerHTML = carModels.value;
     // row.insertCell(3).innerHTML= carTrims.value;
-    row.insertCell(3).innerHTML= '<div class="delete-btn-container"><button class="delete-btn" type="button" value="Delete" onclick="Javascript:deleteRow(this)">Delete</button></div>';
+    row.insertCell(3).innerHTML = '<div class="delete-btn-container"><button class="delete-btn" type="button" value="Delete" onclick="Javascript:deleteRow(this)"><i class="far fa-trash-alt"></i></button></div>';
 }
 
 function deleteRow(obj) {
@@ -24,26 +24,27 @@ function deleteRow(obj) {
 
 function addTable() {
 
-var myTableDiv = document.getElementById("myDynamicTable");
-  
-var table = document.createElement('TABLE');
-table.border='1';
+    var myTableDiv = document.getElementById("myDynamicTable");
 
-var tableBody = document.createElement('TBODY');
-table.appendChild(tableBody);
-  
-for (var i=0; i<3; i++){
-   var tr = document.createElement('TR');
-   tableBody.appendChild(tr);
-   
-   for (var j=0; j<4; j++){
-       var td = document.createElement('TD');
-       td.width='75';
-       td.appendChild(document.createTextNode("Cell " + i + "," + j));
-       tr.appendChild(td);
-   }
-}
-myTableDiv.appendChild(table);
+    var table = document.createElement('TABLE');
+    table.border = '1';
+
+    var tableBody = document.createElement('TBODY');
+    table.appendChild(tableBody);
+
+    for (var i = 0; i < 3; i++) {
+        var tr = document.createElement('TR');
+        tr.classList.add('table-row');
+        tableBody.appendChild(tr);
+
+        for (var j = 0; j < 4; j++) {
+            var td = document.createElement('TD');
+            td.width = '75';
+            td.appendChild(document.createTextNode("Cell " + i + "," + j));
+            tr.appendChild(td);
+        }
+    }
+    myTableDiv.appendChild(table);
 };
 
 // Hide Table Header
@@ -53,3 +54,4 @@ $('.hidethis').hide();
 let vid = document.getElementById('video');
 vid.autoplay = true;
 vid.load();
+

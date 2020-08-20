@@ -1,7 +1,5 @@
 <%- include("header") -%>
 
-<script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-aid-nL-8Siq0uvQUG4I0UEWWJLoSlmc&libraries=places"></script>
 <script type="text/javascript" src="https://www.carqueryapi.com/js/jquery.min.js"></script>
 <script type="text/javascript" src="https://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
 <script type="text/javascript">
@@ -78,11 +76,6 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-
-            </div>
-        </div>
         <!-- Vehicle Information -->
         <div class="container">
             <div class="row vehicle-row">
@@ -106,36 +99,31 @@
                     <label for="car_model_trims" class="vehicleLbls">Body Type</label>
                     <select class="custom-select" id="car-model-trims" name="car_model_trims"></select>
                 </div>
-                <!-- Add Vehicle Button -->
-                <div class="col-sm addVehicle-container" style="margin-top: 40px;">
+            </div>
+            <!-- Add Vehicle Button -->
+            <div>
+                <div class="addVehicle-container">
                     <label class="addVehicle-text" for="addVehicle">Add Vehicle</label>
-                    <button class="addVehicle" type="button" id="add" onclick="addRow(); addLblElement();" name="addVehicle"
+                    <button class="addVehicle" type="button" id="add" onclick="addRow()" name="addVehicle"
                         value="Add"><i class="fas fa-plus" style="color: white;"></i></button>
                 </div>
             </div>
-            <div class="row">
-                <!-- Dynamic Input Fields -->
-                <div class="newElementId" id="newElementId">
-
-                </div>
-            </div>
         </div>
+        <!-- Table -->
         <div class="table-container">
-            <!-- Table -->
-            <div class="table-lbl-container" id="tableLblContainer">
-                
+            <div class="table-responsive">
+                <table id="myTable" class="table table-borderless table-sm">
+                    <thead class="">
+                        <tr class="hidethis">
+                            <th class="table-headers">Year</th>
+                            <th class="table-headers">Make</th>
+                            <th class="table-headers">Model</th>
+                            <!-- <th class="table-headers">Trim</th> -->
+                            <th class="table-headers">Delete</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-            <table id="myTable" class="table table-borderless table-sm">
-                <thead class="">
-                    <tr class="hidethis">
-                        <th class="table-headers">Year</th>
-                        <th class="table-headers">Make</th>
-                        <th class="table-headers">Model</th>
-                        <!-- <th class="table-headers">Trim</th> -->
-                        <th class="table-headers">Delete</th>
-                    </tr>
-                </thead>
-            </table>
         </div>
         <div class="col col-12 form-button-container">
             <button class="get-quote-button" type="submit">Get Quote!</button>

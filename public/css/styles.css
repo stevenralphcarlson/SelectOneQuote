@@ -1,8 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=PT+Sans+Narrow&family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&family=Ubuntu&display=swap');
 
 * {
   font-family: "Ubuntu", sans-serif;
 }
+
+/* Navbar */
+.navbar {
+  background: white;
+}
+
+.navbar a {
+  color: #0081c3;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  cursor: pointer;
+  filter: brightness(50%);
+  text-decoration: underline;
+}
+
+.navbar-toggler-icon {
+  color: #0081c3;
+}
+
+/* ----------------------------------- */
+
+
+/* Form Page */
 
 html {
   box-sizing: border-box;
@@ -20,7 +46,7 @@ hr {
 }
 
 .pricing-header-container {
-  margin-top: 150px;
+  margin-top: 30px;
 }
 
 .pricing-header {
@@ -92,10 +118,6 @@ select {
 }
 
 /* Add Vehicle Button */
-.addVehicle-container {
-  margin-bottom: 30px;
-  float: right;
-}
 
 .addVehicle {
   background: #0081c3;
@@ -103,6 +125,8 @@ select {
   border: none;
   border-radius: 5px;
   box-shadow: 3px 3px 10px black;
+  justify-content: center;
+  align-content: center;
   height: 35px;
   width: 35px;
 }
@@ -128,6 +152,7 @@ select {
 }
 
 /* Table */
+
 .table-container {
   margin: auto;
   text-align: center;
@@ -144,12 +169,12 @@ select {
   width: 100%;
 }
 
-.table-lbl {
-  text-align: left;
+.table tr {
+  height: 75px;
 }
 
 .table td {
-  padding-top: 40px;
+  padding-top: 20px;
   text-align: center;
   text-transform: capitalize;
   font-size: 1.25rem;
@@ -164,7 +189,8 @@ select {
 }
 
 .delete-btn {
-  margin-bottom: 30px;
+  position: relative;
+  bottom: 5px;
   color: white;
   background: #dc3545;
   font-family: Ubuntu, sans-serif;
@@ -173,8 +199,8 @@ select {
   border: none;
   border-radius: 5px;
   box-shadow: 3px 3px 3px black;
-  height: 50px;
-  width: 100px;
+  height: 40px;
+  width: 75px;
 }
 
 .delete-btn:hover {
@@ -224,10 +250,12 @@ select {
   transform: scale(0.90);
 }
 
+/* ----------------------------------- */
+
 /* Quote Page */
 
 .quote-container {
-  margin-top: 150px;
+  margin-top: 30px;
   justify-content: center;
   align-content: center;
   text-align: center;
@@ -251,15 +279,24 @@ select {
 }
 
 .card-title {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 10px;
   color: #0081c3;
   font-weight: bold;
 }
 
+.card-text-container {
+  margin: 0px;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .card-text {
-  margin-top: 40px;
-  font-size: 1.25rem;
+  margin-top: 30px;
+  width: 100%;
+  font-size: 1.05rem;
+  word-spacing: -2px;
+  text-align: justify;
 }
 
 .open-trailer-text {
@@ -294,7 +331,7 @@ select {
 }
 
 #selectEnclosed {
-  margin-top: 35px;
+  margin-top: 15px;
 }
 
 .select-trailer-btn:hover {
@@ -313,10 +350,11 @@ select {
 
 .delivery-sub-title {
   width: 100%;
-  text-align: center;
+  text-align: justify;
+  word-spacing: 1px;
   justify-content: center;
   align-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   font-size: 1.25rem;
 }
 
@@ -325,27 +363,71 @@ select {
   font-weight: bolder;
 }
 
-.deliver-by-text {
-  color: black;
-  font-size: 1rem;
-}
-
 .delivery-card {
   width: 300px;
   height: 500px;
+}
+
+.service-card-header {
+  background-color: #0081c3;
+}
+
+.service-card-text {
+  color: #0081c3;
+}
+
+.service-card-subtext {
+  color: #0081c3;
+}
+
+.service-card-price {
+  color: #0081c3;
+}
+
+.service-card-label {
+  color: #0081c3;
 }
 
 .summary-card {
   box-shadow: 3px 3px 10px black;
 }
 
-.summary-card-title {
-  color: #0081c3;
-  text-align: center;
-  font-size: 1.5rem;
+.summary-card-buttons {
+  height: 50px;
+  width: 200px;
+  background: #0081c3;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px black;
+  color: white;
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.05;
   font-weight: bolder;
-  margin-top: 30px;
+  margin-top: 10px;
 }
+
+.summary-card-buttons:hover {
+  cursor: pointer;
+  filter: brightness(120%);
+  transform: scale(1.10);
+}
+
+.collapseSummary {
+  justify-content: space-evenly;
+  align-content: center;
+  text-align: justify;
+  word-spacing: -1px;
+  margin-top: 20px;
+}
+/* 
+.summary-container {
+  height: 100%;
+  width: 100%;
+  align-content: center;
+  justify-content: center;
+  margin: 0;
+  text-align: center;
+} */
 
 .proceed-to-summary-container{
   align-content: center;
@@ -431,7 +513,7 @@ select {
 
 /* Footer */
 .footer-container {
-  margin-top: 100px;
+  margin-top: 50px;
   text-align: center;
   align-content: center;
   justify-content: center;
@@ -439,22 +521,23 @@ select {
 
 .footer-text {
   color: black;
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .copyright {
   color: #0081c3;
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .footer-img {
-  height:50px;
-  width:65px;
+  height: 30px;
+  width: 50x;
 }
 
 /* Contact-Us */
 .contact-container {
-  margin-top: 150px;
+  font-family: Montserrat, sans-serif;
+  margin-top: 30px;
 }
 
 .contact-container h1 {
@@ -532,12 +615,14 @@ select {
 }
 
 /* @Media Screens for Devices with 600px */
+
 @media only screen and (max-width: 600px) {
+  
   .pricing-header {
     font-size: 1.5rem;
     font-weight: bolder;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 30px;
   }
 
   .pricing-sub-header {
@@ -566,7 +651,9 @@ select {
   }
 
   .addVehicle-container {
-    margin-top: 100px;
+    vertical-align: middle;
+    margin-top: 30px;
+    text-align: center;
   }
 
   .get-quote-button {
@@ -585,7 +672,7 @@ select {
 
   .delete-btn {
     height: 30px;
-    width: 75px;
+    width: 50px;
     font-size: 1rem;
   }
 
