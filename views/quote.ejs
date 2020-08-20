@@ -53,6 +53,7 @@
 <form action="/summary" method="POST" id="theForm">
   <div class="container">
     <div class="card-deck mb-3 text-center" id="part1">
+      <!-- Open Trailer Card -->
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
           <h4 class="my-0 font-weight-normal">Open Trailer</h4>
@@ -60,44 +61,42 @@
         <div class="card-body">
           <!-- Open Trailer Image -->
           <div class="openTrailerImage">
-            <img src="/images/openTrailer.jpeg" alt="Open Car Trailer"
-              style="width: 75%; border: 2px solid lightgray;" />
+            <img src="/images/open-car-hauler.jpg" alt="Open Car Trailer"/>
           </div>
-          <p style="margin-top: 2rem;">
-            An 'Open Trailer' is a trailer that is open and exposed to the
+          <p class="card-subtext">
+            An 'Open Trailer' is a trailer that is open and exposes your vehicle to the
             elements. See the image for an example.
           </p>
           <h1 class="card-title pricing-card-title">
-            $<%= openstandard %><small class="text-muted"></small>
+            $<%= openstandard %>
           </h1>
-          <button type="button" class="btn btn-lg btn-block btn-outline-primary select-open-trailer"
-            style="bottom: 1rem; background-color: #00538b; color: white;" id="continueToOpen">
+          <button type="button" class="btn btn-lg select-open-trailer" id="continueToOpen">
             Select Open Trailer
           </button>
         </div>
       </div>
-
+      <!-- Enclosed Trailer Card -->
       <div class="card mb-4 shadow-sm">
         <!-- Enlcosed Trailer Image -->
         <div class="card-header enclosedTrailerImage">
           <h4 class="my-0 font-weight-normal">Enclosed Trailer</h4>
         </div>
         <div class="card-body">
-          <div>
-            <img src="/images/s1gEnclosed.png" alt="Enclosed Car Trailer"
-              style="width: 75%; height: 100%; border: 2px solid lightgray;" />
+          <div class="enclosed-trailer-img-container">
+            <img class="enclosed-trailer-img" src="/images/s1gEnclosed.png" alt="Enclosed Car Trailer"/>
           </div>
-          <p style="margin-top: 2rem;">
-            An 'Enclosed Trailer' is a trailer that protects from the elements.
+          <p class="card-text-description">
+            An 'Enclosed Trailer' is a trailer that is enclosed and protects your vehicle from the elements.
             See the image for an example.
           </p>
           <h1 class="card-title pricing-card-title">
             $<%= enclosedstandard %><small class="text-muted"></small>
           </h1>
-          <button type="button" class="btn btn-lg btn-block btn-primary select-enclosed-trailer" id="selectEnclosed"
-            style="color: white; background-color: #00538b; margin-top: 3rem">
-            Select Enclosed Trailer
-          </button>
+          <div class="select-enclosed-container">
+            <button type="button" class="btn btn-lg select-enclosed-trailer" id="selectEnclosed">
+              Select Enclosed Trailer
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -117,7 +116,7 @@
       <div class="card-deck mb-3 text-center" id="openShipping">
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Standard</h4>
+            <h4 class="my-0">Standard</h4>
           </div>
           <div class="card-body">
             <h1 class="card-title pricing-card-title">
@@ -130,7 +129,7 @@
 
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Premium</h4>
+            <h4 class="my-0">Premium</h4>
           </div>
           <div class="card-body">
             <h1 class="card-title pricing-card-title">
@@ -221,8 +220,7 @@
       </div>
     </div>
     <div class="proceed-to-summary">
-      <button type="submit" class="proceed-to-summary-button btn btn-lg" id="summary-button"
-        style="background-color: #00538b; color: white;">
+      <button type="submit" class="proceed-to-summary-button btn btn-lg" id="summary-button">
         Proceed to Summary
       </button>
     </div>

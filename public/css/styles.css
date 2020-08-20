@@ -1,29 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto+Condensed&family=Ubuntu&display=swap');
+
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu", sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  background-color: #e7e7e7;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23000000' fill-opacity='0.08' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-color: #eeeeee;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23000000' fill-opacity='0.04' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-h1 {
-  font-family: "Roboto", sans-serif;
-  color: #00538b;
+h1, h2 {
+  color: #0081c3;
+  font-weight: bolder;
 }
 
-h2 {
-  color: #00538b;
-  font-family: "Roboto", sans-serif;
+p {
+  color: black;
+  font-weight: bolder;
+  font-size: 1.25rem;
 }
 
 label {
-  color: #00538b;
-  font-size: 20px;
+  color: #0081c3;
+  font-size: 1.5rem;
+  font-weight: bolder;
+  text-align: left;
+}
+
+input {
+  font-size: 1.25rem;
+  border-radius: 20px;
 }
 
 button {
-  background-color: #00538b;
+  background-color: #0081c3;
 }
 
 .logo {
@@ -32,60 +43,181 @@ button {
 }
 
 .pricing-header {
-  margin-top: 5rem;
+  margin-top: 30px;
+}
+
+.video-container {
+  margin-bottom: 10px;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.video {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 200px;
+  width: 550px;
+  border-radius: 50px;
+  border: 5px solid lightgray;
+  box-shadow: 3px 3px 10px black;
+  margin-bottom: 30px;
 }
 
 .destinations-row {
-  margin-bottom: 2rem;
+  margin-bottom: 30px;
 }
 
 .vehicle-row {
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
 }
 
 .date-available {
   padding: 0px;
-  margin-bottom: 3rem;
+  margin-bottom: 30px;
 }
 
-.form-button {
-  margin: 0;
+.form-button-container {
+  margin-top: 30px;
   text-align: center;
+  justify-content: center;
+  align-content: center;
 }
 
 .get-quote-button {
-  background-color: #00538b;
+  background-color: #0081c3;
   color: white;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  height: 50px;
+  width: 200px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px black;
 }
 
 .get-quote-button:hover {
-  border: 2rem;
+  color: white;
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.25rem;
+  transform: scale(1.10);
+  filter: brightness(120%);
+}
+
+.get-quote-button:active {
+  transform: scale(0.90);
 }
 
 .table {
-  background-color: #00538b;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.table td {
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  color: #0081c3;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.add-vehicle-container {
+  justify-content: center;
+  align-content: center;
+  margin: 0;
+  text-align: center;
+  position: relative;
+  bottom: -31px;
+}
+
+.add-vehicle-btn {
+  border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  outline: none;
+  box-shadow: 3px 3px 10px black;
+}
+
+.add-vehicle-btn:hover {
+  filter: brightness(120%);
+  cursor: pointer;
+  transform: scale(1.10);
+}
+
+.add-vehicle-btn:active {
+  transform: scale(0.90);
+}
+
+.deleteBtn {
+  position: relative;
+  bottom: 7px;
+  right: -100px;
+  color: red;
+  background: transparent;
+  height: 50px;
+  width: 50px;
+  border: none;
+  outline: none;
+}
+
+.deleteBtn:hover {
+  filter: brightness(120%);
+  cursor: pointer;
+  transform: scale(1.10)
+}
+
+.deleteBtn:active {
+  outline: none;
+  border: none;
+  transform: scale(0.98);
 }
 
 /* Quote Page */
+.card {
+  border-radius: 5px;
+}
 
 .card-header {
-  background-color: #00538b;
+  background-color: #0081c3;
   color: white;
-  box-shadow: 2px 2px lightgray;
+  box-shadow: 3px 3px 10px black;
+}
+
+.card-header h4 {
+  font-weight: bolder;
+  font-size: 3rem;
+  color: white;
 }
 
 .card-body {
   background-color: whitesmoke;
-  box-shadow: 2px 2px lightgray;
+  box-shadow: 3px 3px 10px black;
 }
 
-.link {
-  background: none;
+.openTrailerImage img {
+  height: 75%;
+  width: 100%;
   border: none;
+  outline: none;
+  box-shadow: 3px 3px 10px black;
 }
 
-.link:hover {
-  text-decoration: underline;
+.enclosed-trailer-img {
+  height: 75%;
+  width: 100%;
+  border: none;
+  outline: none;
+  box-shadow: 3px 3px 10px black;
+}
+
+.card-text-description {
+  color: black;
+  font-size: 1.25rem;
+  text-align: justify;
+  word-spacing: -1px;
+  margin-top: 30px;
 }
 
 .proceed-to-checkout {
@@ -94,7 +226,7 @@ button {
 }
 
 .proceed-to-checkout-button {
-  background-color: #00538b;
+  background-color: #0081c3;
   border-radius: 10px;
   color: white;
   height: 3rem;
@@ -112,53 +244,95 @@ button {
 }
 
 .proceed-to-summary-button {
-  background-color: #00538b;
+  background: #0081c3;
   border-radius: 10px;
   color: white;
-  height: 3rem;
-  widows: 5rem;
-  font-size: 20px;
+  height: 50px;
+  width: fit-content;
+  font-size: 1.5rem;
+  box-shadow: 3px 3px 10px black;
 }
 
 .proceed-to-summary-button:hover {
-  opacity: 80%;
-}
-
-.price-button {
-  background-color: #00538b;
   color: white;
-  width: 6rem;
-  height: 3rem;
-  font-size: 20px;
-  border-radius: 10px;
+  filter: brightness(120%);
+  transform: scale(1.10);
 }
 
-.price-button:hover {
-  opacity: 70%;
-  border-color: darkorange;
-  border-width: 5px;
+.proceed-to-summary-button:active {
+  transform: scale(0.90);
 }
 
-#theForm {
-  width: 100%;
-  margin: auto;
+.add-vehicle-container {
+  justify-content: center;
+  align-content: center;
   text-align: center;
+  margin: 0;
 }
 
-.checkout-summary {
-  position: relative;
-  margin-top: 200px;
+.pricing-card-title {
+  color: #0081c3;
+  font-weight: bolder;
+  font-size: 3rem;
+}
+
+.card-subtext {
+  color: black;
+  font-size: 1.25rem;
+  text-align: justify;
+  word-spacing: -1px;
+  margin-top: 30px;
+}
+
+.select-open-trailer {
+  height: 50px;
+  width: fit-content;
+  box-shadow: 3px 3px 10px black;
+  color: white;
+  background: #0081c3;
+  border-radius: 5px;
+  border: none;
   text-align: center;
-  top: 50%;
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  margin-top: 30px;
 }
 
 .select-open-trailer:hover {
-  opacity: 80%;
+  color: white;
+  filter: brightness(120%);
+  cursor: pointer;
+  transform: scale(1.10);
 }
 
+.select-open-trailer:active {
+  transform: scale(0.90);
+}
+
+.select-enclosed-trailer {
+  font-family: Ubuntu, sans-serif;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  height: 50px;
+  width: fit-content;
+  color: white;
+  background: #0081c3;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  box-shadow: 3px 3px 10px black;
+  margin-top: 65px;
+}
 
 .select-enclosed-trailer:hover {
-  opacity: 80%;
+  color: white;
+  filter: brightness(120%);
+  transform: scale(1.10);
+}
+
+.select-enclosed-trailer:active {
+  transform: scale(0.90);
 }
 
 /* Summary */
@@ -167,3 +341,71 @@ button {
 
 
 /* Footer */
+.footer-container {
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin: 0;
+}
+
+.footer-text {
+  color: black;
+  font-size: 1.25rem;
+}
+
+.footer-container img {
+  width: 50px;
+  height: 40px;
+}
+
+.footer-container i {
+  color: #0081c3
+}
+
+/* Media Query for Device Screens Less Than 600px */
+@media only screen and (max-width: 600px) {
+  .pricing-header {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+    text-align: justify;
+    word-spacing: -1px;
+  }
+
+  .video {
+    height: 100px;
+    width: 250px;
+    border-radius: 20px;
+  }
+
+  .table {
+    margin-left: -12px;
+  }
+
+  .add-vehicle-container {
+    position: initial;
+  }
+
+  .add-vehicle-btn {
+    height: 30px;
+    width: 30px;
+  }
+
+  .addIcon {
+    font-size: 20px;
+  }
+
+  .deleteBtn {
+    position: relative;
+    bottom: 1px;
+    right: 17px;
+    height: 30px;
+    width: 30px;
+    color: red;
+    background: transparent;
+    font-size: 1rem;
+
+  }
+}

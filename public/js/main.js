@@ -32,9 +32,10 @@ function addRow() {
     carTrims.value;
 
   row.insertCell(4).innerHTML =
-    '<input type="button" value="Delete" onclick="Javascript:deleteRow(this)">';
+    '<button class="deleteBtn" type="button" onclick="Javascript:deleteRow(this)"><i class="fas fa-trash-alt fa-2x"></i></button>';
 
   $("#car-table").show();
+  $(".hideThis").hide();
 }
 
 function deleteRow(obj) {
@@ -46,3 +47,8 @@ function deleteRow(obj) {
     $("#car-table").hide();
   }
 }
+
+let vid = document.getElementById('video');
+vid.autoplay = true;
+vid.loop = true;
+vid.load();
