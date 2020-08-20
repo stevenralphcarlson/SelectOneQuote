@@ -4,6 +4,7 @@
     $("#part2").hide();
     $("#openShipping").hide();
     $("#enclosedShipping").hide();
+    $("#summary-button").hide();
 
     var priceHierarchy = {
       openstandard: "1",
@@ -29,6 +30,7 @@
     $("#continueToOpen").click(function () {
       $("#part1").hide();
       $("#part2").show();
+      $("#summary-button").show();
       $("#header").text("Delivery Options");
       $("#openstandard").prop("checked", true);
       $("#openShipping").show();
@@ -37,6 +39,7 @@
     $("#selectEnclosed").click(function () {
       $("#part1").hide();
       $("#part2").show();
+      $("#summary-button").show();
       $("#header").text("Delivery Options");
       $("#enclosedstandard").prop("checked", true);
       $("#enclosedShipping").show();
@@ -165,7 +168,7 @@
                   <li class="list-group-item"><strong>Origin:</strong> <%= quoteOrigin %></li>
                   <li class="list-group-item"><strong>Destination:</strong> <%= quoteDestination %></li>
                   <li class="list-group-item"><strong>Distance: </strong> <%= distance %> miles</li>
-                  <li class="list-group-item"><strong>Vehicle: </strong><%= vehicle %></li>
+                  <li class="list-group-item"><strong>Vehicles: </strong><%= vehicles %></li>
                   <li class="list-group-item"><strong>Available Date: </strong><%= dateAvailable %></li>
                   <li class="list-group-item"><strong>Deliver By: </strong> <%= standardDeliverBy %></li>
                   <li class="list-group-item"><strong>Price: </strong>$<%= openstandard %></li>

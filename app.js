@@ -65,7 +65,7 @@ app.get("/summary", function (req, res) {
     session_id: ssn.sessionId,
     selectedPrice: ssn.selectedPrice,
     stripePublishableKey: configuration.STRIPE_API_PUBLISHABLE_KEY,
-    vehicle: ssn.vehicle,
+    vehicles: ssn.vehicles,
     from: ssn.from,
     to: ssn.to,
     miles: ssn.miles,
@@ -111,7 +111,7 @@ app.post("/summary", async (req, res) => {
     session_id: ssn.sessionId,
     selectedPrice: ssn.selectedPrice,
     stripePublishableKey: configuration.STRIPE_API_PUBLISHABLE_KEY,
-    vehicle: ssn.vehicle,
+    vehicles: ssn.vehicles,
     from: ssn.from,
     to: ssn.to,
     miles: ssn.miles,
@@ -136,23 +136,11 @@ app.post("/quote", function (req, res) {
   let standardSpeed = 200;
   let premiumSpeed = 300;
   let expressSpeed = 550;
-  let premiumRateMultiplier = 1.5;
-  let expressRateMuiltiplier = 3;
+  let premiumRateMultiplier = 1.25;
+  let expressRateMuiltiplier = 2.1;
 
-  const vehicle = req.body["car-makes"] + " " + req.body["car-models"];
-  //   capitalizeFirstLetter(req.body["car-makes"]) +
-  //   " " +
-  //   capitalizeFirstLetter(req.body["car-models"]);
   let origins = req.body.origins;
   let destinations = req.body.destinations;
-  let vehicleInformation =
-    req.body["car-years"] +
-    " " +
-    req.body["car-makes"] +
-    " " +
-    req.body["car-models"] +
-    " " +
-    req.body["car-model-trims"];
   let dateParts = req.body["date-available"].split("-");
   const dateAvailable = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
 
@@ -166,150 +154,168 @@ app.post("/quote", function (req, res) {
   let fuelPriceUrl =
     "http://api.eia.gov/series/?api_key=c8ec494bec9e997e6f051af94f510640&series_id=PET.EMD_EPD2DXL0_PTE_NUS_DPG.W";
 
-  let carQueryUrl =
-    "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=" +
-    req.body["car-model-trims"];
+  const carYears = req.body["car-years"];
+  const carMakes = req.body["car-makes"];
+  const carModels = req.body["car-models"];
+  const carModelTrims = req.body["car-model-trims"];
+  const vehicles = [];
+  const urls = [];
+
+  urls.push(distanceUrl);
+  urls.push(fuelPriceUrl);
+
+  for (let i = 0; i < carYears.length; i++) {
+    vehicles.push(
+      capitalizeFirstLetter(carMakes[i]) +
+        " " +
+        capitalizeFirstLetter(carModels[i])
+    );
+
+    let carQueryUrl =
+      "https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getModel&model=" +
+      carModelTrims[i];
+
+    urls.push(carQueryUrl);
+  }
 
   (async () => {
     try {
-      const [
-        distanceResponse,
-        fuelPriceResponse,
-        carQueryResponse,
-      ] = await axios.all([
-        axios.get(distanceUrl),
-        axios.get(fuelPriceUrl),
-        axios.get(carQueryUrl),
-        1,
-      ]);
+      axios.all(urls.map((u) => axios.get(u))).then(
+        axios.spread(function (...responses) {
+          let distance = Math.round(
+            responses[0].data.rows[0].elements[0].distance.value / 1609
+          ); // Converting meters to miles
+          let formMiles = responses[0].data.rows[0].elements[0].distance.text;
+          let formOrigin = responses[0].data.origin_addresses;
+          let formDestination = responses[0].data.destination_addresses;
 
-      let distance = Math.round(
-        distanceResponse.data.rows[0].elements[0].distance.value / 1609
-      ); // Converting meters to miles
-      let formMiles = distanceResponse.data.rows[0].elements[0].distance.text;
-      let formOrigin = distanceResponse.data.origin_addresses;
-      let formDestination = distanceResponse.data.destination_addresses;
-      let carQueryData = JSON.parse(
-        trimWeirdCharactersFromJson(carQueryResponse.data)
+          let carWeight = 0;
+
+          for (let i = 2; i < responses.length; i++) {
+            let carQueryData = JSON.parse(
+              trimWeirdCharactersFromJson(responses[i].data)
+            );
+
+            carWeight += Number(carQueryData[0].model_weight_lbs);
+          }
+
+          // Calculate Deliver By Dates
+          let standardDeliverBy = new Date(dateAvailable);
+          standardDeliverBy.setDate(
+            standardDeliverBy.getDate() +
+              standardMinDays +
+              Math.round(distance / standardSpeed)
+          );
+          standardDeliverBy = getFormattedDate(standardDeliverBy);
+
+          let premiumDeliverBy = new Date(dateAvailable);
+          premiumDeliverBy.setDate(
+            premiumDeliverBy.getDate() +
+              premiumMinDays +
+              Math.round(distance / premiumSpeed)
+          );
+          premiumDeliverBy = getFormattedDate(premiumDeliverBy);
+
+          let expressDeliverBy = new Date(dateAvailable);
+          expressDeliverBy.setDate(
+            expressDeliverBy.getDate() +
+              expressMinDays +
+              Math.round(distance / expressSpeed)
+          );
+          expressDeliverBy = getFormattedDate(expressDeliverBy);
+
+          let fuelSurcharge = 0;
+
+          const currentFuelPrice = responses[1].data.series[0].data[0][1];
+          const baseFuelPrice = 2.5;
+
+          if (currentFuelPrice > baseFuelPrice) {
+            const delta = currentFuelPrice - baseFuelPrice;
+            const avgMpg = 6;
+            const fuelSurchargePerMile = delta / avgMpg;
+            fuelSurcharge = fuelSurchargePerMile * distance;
+          }
+
+          // to do add the available date and insurance calculations
+          let openstandard = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (openCapacity / carWeight)) * distance
+          );
+
+          let openpremium = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (openCapacity / carWeight)) *
+                distance *
+                premiumRateMultiplier
+          );
+
+          let openexpress = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (openCapacity / carWeight)) *
+                distance *
+                expressRateMuiltiplier
+          );
+
+          let enclosedstandard = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (enclosedCapacity / carWeight)) * distance
+          );
+
+          let enclosedpremium = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (enclosedCapacity / carWeight)) *
+                distance *
+                premiumRateMultiplier
+          );
+
+          let enclosedexpress = Math.round(
+            fuelSurcharge +
+              (revenueGoal / (enclosedCapacity / carWeight)) *
+                distance *
+                expressRateMuiltiplier
+          );
+
+          const ssn = req.session;
+          ssn.openstandard = openstandard;
+          ssn.openpremium = openpremium;
+          ssn.openexpress = openexpress;
+          ssn.enclosedstandard = enclosedstandard;
+          ssn.enclosedpremium = enclosedpremium;
+          ssn.enclosedexpress = enclosedexpress;
+          ssn.from = formOrigin;
+          ssn.to = formDestination;
+          ssn.vehicles = vehicles;
+          ssn.miles = formMiles;
+
+          res.render("quote", {
+            locationData: responses[0].data,
+            quoteMiles: formMiles,
+            quoteOrigin: formOrigin,
+            distance,
+            dateAvailable,
+            quoteDestination: formDestination,
+            openstandard: openstandard,
+            openpremium: openpremium,
+            openexpress: openexpress,
+            enclosedstandard: enclosedstandard,
+            enclosedpremium: enclosedpremium,
+            enclosedexpress: enclosedexpress,
+            standardDeliverBy: standardDeliverBy,
+            premiumDeliverBy: premiumDeliverBy,
+            expressDeliverBy: expressDeliverBy,
+            vehicles: vehicles,
+          });
+        })
       );
-
-      // Calculate Deliver By Dates
-      let standardDeliverBy = new Date(dateAvailable);
-      standardDeliverBy.setDate(
-        standardDeliverBy.getDate() +
-          standardMinDays +
-          Math.round(distance / standardSpeed)
-      );
-      standardDeliverBy = getFormattedDate(standardDeliverBy);
-
-      let premiumDeliverBy = new Date(dateAvailable);
-      premiumDeliverBy.setDate(
-        premiumDeliverBy.getDate() +
-          premiumMinDays +
-          Math.round(distance / premiumSpeed)
-      );
-      premiumDeliverBy = getFormattedDate(premiumDeliverBy);
-
-      let expressDeliverBy = new Date(dateAvailable);
-      expressDeliverBy.setDate(
-        expressDeliverBy.getDate() +
-          expressMinDays +
-          Math.round(distance / expressSpeed)
-      );
-      expressDeliverBy = getFormattedDate(expressDeliverBy);
-
-      let carWeight = carQueryData[0].model_weight_lbs;
-
-      let fuelSurcharge = 0;
-
-      const currentFuelPrice = fuelPriceResponse.data.series[0].data[0][1];
-      const baseFuelPrice = 2.5;
-
-      if (currentFuelPrice > baseFuelPrice) {
-        const delta = currentFuelPrice - baseFuelPrice;
-        const avgMpg = 6;
-        const fuelSurchargePerMile = delta / avgMpg;
-        fuelSurcharge = fuelSurchargePerMile * distance;
-      }
-
-      // to do add the available date and insurance calculations
-      let openstandard = Math.round(
-        fuelSurcharge + (revenueGoal / (openCapacity / carWeight)) * distance
-      );
-
-      let openpremium = Math.round(
-        fuelSurcharge +
-          (revenueGoal / (openCapacity / carWeight)) *
-            distance *
-            premiumRateMultiplier
-      );
-
-      let openexpress = Math.round(
-        fuelSurcharge +
-          (revenueGoal / (openCapacity / carWeight)) *
-            distance *
-            expressRateMuiltiplier
-      );
-
-      let enclosedstandard = Math.round(
-        fuelSurcharge +
-          (revenueGoal / (enclosedCapacity / carWeight)) * distance
-      );
-
-      let enclosedpremium = Math.round(
-        fuelSurcharge +
-          (revenueGoal / (enclosedCapacity / carWeight)) *
-            distance *
-            premiumRateMultiplier
-      );
-
-      let enclosedexpress = Math.round(
-        fuelSurcharge +
-          (revenueGoal / (enclosedCapacity / carWeight)) *
-            distance *
-            expressRateMuiltiplier
-      );
-
-      const ssn = req.session;
-      ssn.openstandard = openstandard;
-      ssn.openpremium = openpremium;
-      ssn.openexpress = openexpress;
-      ssn.enclosedstandard = enclosedstandard;
-      ssn.enclosedpremium = enclosedpremium;
-      ssn.enclosedexpress = enclosedexpress;
-      ssn.from = formOrigin;
-      ssn.to = formDestination;
-      ssn.vehicle = vehicle;
-      ssn.miles = formMiles;
-
-      res.render("quote", {
-        locationData: distanceResponse.data,
-        quoteMiles: formMiles,
-        quoteOrigin: formOrigin,
-        distance,
-        dateAvailable,
-        vehicleInformation,
-        quoteDestination: formDestination,
-        openstandard: openstandard,
-        openpremium: openpremium,
-        openexpress: openexpress,
-        enclosedstandard: enclosedstandard,
-        enclosedpremium: enclosedpremium,
-        enclosedexpress: enclosedexpress,
-        standardDeliverBy: standardDeliverBy,
-        premiumDeliverBy: premiumDeliverBy,
-        expressDeliverBy: expressDeliverBy,
-        vehicle: vehicle,
-      });
     } catch (error) {
       console.log(error.response.body);
     }
   })();
 });
 
-// function capitalizeFirstLetter(string) {
-//   return string.charAt(0).toUpperCase() + string.slice(1);
-// }
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function getFormattedDate(date) {
   var year = date.getFullYear();
