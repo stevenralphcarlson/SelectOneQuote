@@ -5,6 +5,7 @@
     $("#summary-button").hide();
     $("#openShipping").hide();
     $("#enclosedShipping").hide();
+    $("#summary-button").hide();
 
     var priceHierarchy = {
       openstandard: "1",
@@ -31,7 +32,7 @@
     $("#continueToOpen").click(function () {
       $("#part1").hide();
       $("#part2").show();
-      $("#summary-button").show()
+      $("#summary-button").show();
       $("#header").text("Delivery Options");
       $("#openstandard").prop("checked", true);
       $("#openShipping").show();
@@ -40,7 +41,7 @@
     $("#selectEnclosed").click(function () {
       $("#part1").hide();
       $("#part2").show();
-      $("summary-button").show();
+      $("#summary-button").show();
       $("#header").text("Delivery Options");
       $("#enclosedstandard").prop("checked", true);
       $("#enclosedShipping").show();
