@@ -1,131 +1,173 @@
 <%- include("header") -%>
 
-<script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-aid-nL-8Siq0uvQUG4I0UEWWJLoSlmc&libraries=places"></script>
-<script type="text/javascript" src="https://www.carqueryapi.com/js/jquery.min.js"></script>
-<script type="text/javascript" src="https://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
+<script
+  type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-aid-nL-8Siq0uvQUG4I0UEWWJLoSlmc&libraries=places"
+></script>
+<script
+  type="text/javascript"
+  src="https://www.carqueryapi.com/js/jquery.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://www.carqueryapi.com/js/carquery.0.3.4.js"
+></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+  $(document).ready(function () {
+    $("#car-table").hide();
 
-        $("#car-table").hide();
+    var carquery = new CarQuery();
+    carquery.init();
+    carquery.initYearMakeModelTrim(
+      "car-years",
+      "car-makes",
+      "car-models",
+      "car-model-trims"
+    );
 
-        var carquery = new CarQuery();
-        carquery.init();
-        carquery.initYearMakeModelTrim('car-years', 'car-makes', 'car-models', 'car-model-trims');
-
-        //Set onclick function for the US filter checkbox and show data button
-        $('#cq-sold-in-us').click(function () {
-            carquery.setFilters({
-                sold_in_us: this.checked
-            });
-        });
-        $('#cq-show-data').click(function () {
-            carquery.populateCarData('car-model-data');
-        });
-
-        // set the minimum date to tomorrow
-        var tomorrow = new Date();
-        tomorrow.setDate(new Date().getDate() + 1);
-        document.getElementById("date-available").setAttribute('min', tomorrow.toISOString().split('T')[0]);
-
-        //Retrieve autocomplete predictions for origin and destination inputs
-        function initialize() {
-            var input = document.getElementById('origins');
-            var input2 = document.getElementById('destinations');
-            new google.maps.places.Autocomplete(input);
-            new google.maps.places.Autocomplete(input2);
-        }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-
+    //Set onclick function for the US filter checkbox and show data button
+    $("#cq-sold-in-us").click(function () {
+      carquery.setFilters({
+        sold_in_us: this.checked,
+      });
     });
+    $("#cq-show-data").click(function () {
+      carquery.populateCarData("car-model-data");
+    });
+
+    // set the minimum date to tomorrow
+    var tomorrow = new Date();
+    tomorrow.setDate(new Date().getDate() + 1);
+    document
+      .getElementById("date-available")
+      .setAttribute("min", tomorrow.toISOString().split("T")[0]);
+
+    //Retrieve autocomplete predictions for origin and destination inputs
+    function initialize() {
+      var input = document.getElementById("origins");
+      var input2 = document.getElementById("destinations");
+      new google.maps.places.Autocomplete(input);
+      new google.maps.places.Autocomplete(input2);
+    }
+
+    google.maps.event.addDomListener(window, "load", initialize);
+  });
 </script>
 
-
 <div class="container">
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <!-- Header Text -->
-        <h1 class="pricing-header display-4">Get a Quote</h1>
-        <p class="pricing-sub-header">Fill out the form below to get your vehicle transportation quote today.</p>
-    </div>
-    <!-- Video -->
-    <div class="video-container">
-        <video src="/images/Select_One_Open.mp4" class="video" id="video"></video>
-    </div>
+  <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <!-- Header Text -->
+    <h1
+      class="pricing-header display-4"
+      data-aos="zoom-in-left"
+      data-aos-delay="200"
+    >
+      Get a Quote
+    </h1>
+    <p class="pricing-sub-header" data-aos="zoom-in-up" data-aos-delay="400">
+      Fill out the form below to get your vehicle transportation quote today.
+    </p>
+  </div>
+  <!-- Video -->
+  <div class="video-container" data-aos="zoom-in" data-aos-delay="600">
+    <video src="/images/Select_One_Open.mp4" class="video" id="video"></video>
+  </div>
 </div>
-<div class="container">
-    <!-- Form -->
-    <form action="/quote" method="POST" id="theForm" name="theForm">
-        <!-- Origin -->
-        <div class="row destinations-row">
-            <div class="col-sm input-group-lg">
-                <label class="originLbl" for="origins">Origin</label>
-                <input class="form-control origin" name="origins" id="origins" type="text" placeholder="Zip or City,St"
-                    required>
-            </div>
-            <!-- Destination -->
-            <div class="col-sm input-group-lg">
-                <label class="destinationLbl" for="destinations">Destination</label>
-                <input class="form-control destination" name="destinations" id="destinations" type="text"
-                    placeholder="Zip or City,St" required>
-            </div>
-            <!-- Date Available -->
-            <div class="col-sm date-available input-group-lg">
-                <label for="car-model-trims">Date Available</label>
-                <input class="form-control custom-select" type="date" id="date-available" name="date-available"
-                    required>
-            </div>
-        </div>
-        <!-- Vehicle Section -->
-        <div class="row vehicle-row">
-            <div class="col-sm input-group-lg">
-                <label for="car_years">Year</label>
-                <select class="custom-select" id="car-years"></select>
-            </div>
+<div class="container" data-aos="fade-up" data-aos-delay="800">
+  <!-- Form -->
+  <form action="/quote" method="POST" id="theForm" name="theForm">
+    <!-- Origin -->
+    <div class="row destinations-row">
+      <div class="col-sm input-group-lg">
+        <label class="originLbl" for="origins">Origin</label>
+        <input
+          class="form-control origin"
+          name="origins"
+          id="origins"
+          type="text"
+          placeholder="Zip or City,St"
+          required
+        />
+      </div>
+      <!-- Destination -->
+      <div class="col-sm input-group-lg">
+        <label class="destinationLbl" for="destinations">Destination</label>
+        <input
+          class="form-control destination"
+          name="destinations"
+          id="destinations"
+          type="text"
+          placeholder="Zip or City,St"
+          required
+        />
+      </div>
+      <!-- Date Available -->
+      <div class="col-sm date-available input-group-lg">
+        <label for="car-model-trims">Date Available</label>
+        <input
+          class="form-control custom-select"
+          type="date"
+          id="date-available"
+          name="date-available"
+          required
+        />
+      </div>
+    </div>
+    <!-- Vehicle Section -->
+    <div class="row vehicle-row">
+      <div class="col-sm input-group-lg">
+        <label for="car_years">Year</label>
+        <select class="custom-select" id="car-years"></select>
+      </div>
 
-            <div class="col-sm input-group-lg">
-                <label for="car_makes">Make</label>
-                <select class="custom-select" id="car-makes"></select>
-            </div>
-            <div class="col-sm input-group-lg">
-                <label for="car_models">Model</label>
-                <select class="custom-select" id="car-models"></select>
-            </div>
-            <div class="col-sm input-group-lg">
-                <label for="car_model_trims">Body Type</label>
-                <select class="custom-select" id="car-model-trims"></select>
-            </div>
-            <!-- Add Vehicle -->
-            <div class="col-sm input-group-lg add-vehicle-container">
-                <label for="addVehicle">Add vehicle</label>
-                <button class="add-vehicle-btn" type="button" id="add" onclick="Javascript:addRow()" name="addVehicle"
-                    value="Add"><i class="fas fa-plus fa-2x addIcon" style="color: white;"></i></button>
-            </div>
-        </div>
+      <div class="col-sm input-group-lg">
+        <label for="car_makes">Make</label>
+        <select class="custom-select" id="car-makes"></select>
+      </div>
+      <div class="col-sm input-group-lg">
+        <label for="car_models">Model</label>
+        <select class="custom-select" id="car-models"></select>
+      </div>
+      <div class="col-sm input-group-lg">
+        <label for="car_model_trims">Body Type</label>
+        <select class="custom-select" id="car-model-trims"></select>
+      </div>
+      <!-- Add Vehicle -->
+      <div class="col-sm input-group-lg add-vehicle-container">
+        <label for="addVehicle">Add vehicle</label>
+        <button
+          class="add-vehicle-btn"
+          type="button"
+          id="add"
+          onclick="Javascript:addRow()"
+          name="addVehicle"
+          value="Add"
+        >
+          <i class="fas fa-plus fa-2x addIcon" style="color: white;"></i>
+        </button>
+      </div>
+    </div>
 
-        <div class="container">
-            <table id="car-table" name="car_table" class="table table-sm">
-                <thead>
-                    <tr class="hideThis">
-                        <th>Year</th>
-                        <th>Make</th>
-                        <th>Model</th>
-                        <th>Trim</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm form-button-container">
-            <button class="btn btn-lg get-quote-button" type="submit">Get Quote!</button>
-        </div>
-    </form>
+    <div class="container">
+      <table id="car-table" name="car_table" class="table table-sm">
+        <thead>
+          <tr class="hideThis">
+            <th>Year</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Trim</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="col-sm form-button-container">
+      <button class="btn btn-lg get-quote-button" type="submit">
+        Get Quote!
+      </button>
+    </div>
+  </form>
 </div>
-
-
-
 
 <%- include("footer") -%>
